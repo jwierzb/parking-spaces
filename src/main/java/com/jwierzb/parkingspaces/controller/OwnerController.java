@@ -47,7 +47,7 @@ public class OwnerController {
                 OwnerProfitModel.builder()
                 .parkingFinished(transactionDao.countAllByEndTimeBetween(dayDate.atStartOfDay(), dayDate.atStartOfDay().plusDays(1L)))
                 .parkingInProgress(transactionDao.countAllByEndTimeNull())
-                .totalProfit((transactionDao.findAllByEndTimeBetween(dayDate.atStartOfDay(), dayDate.atStartOfDay().plusDays(1L))).stream().mapToDouble(x -> x.getPrice()).sum())
+                .totalProfit((transactionDao.findAllByEndTimeBetween(dayDate.atStartOfDay(), dayDate.atStartOfDay().plusDays(1L))).stream().mapToDouble(x -> x.getPrice().doubleValue()).sum())
                 .build();
         return ownerProfitModel;
     }

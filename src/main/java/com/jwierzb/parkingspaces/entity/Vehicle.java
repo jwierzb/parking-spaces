@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -27,15 +28,17 @@ import static lombok.AccessLevel.*;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Vehicle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_generator")
+    @SequenceGenerator(name="author_generator", sequenceName = "vehicle_id_sequence")
     Long id;
 
-    @NotNull
-    @Length(max = 7)
+    @Length(max = 10)
     @Column(name = "REGISTRATION_NUMBER", unique = true)
     String registrationNumber;
 
@@ -49,5 +52,4 @@ public class Vehicle {
     @JsonGetter
     String getUsername(){return user.getUsername();}
 
-    public Vehicle(){}
 }

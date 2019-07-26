@@ -76,7 +76,7 @@ public class DriverControllerTest {
 
     }
 
-
+/*
     @Test
     @WithMockUser(username = "test_user", roles = {"DRIVER"})
     public void shouldAddVehicleToDriver() throws Exception {
@@ -97,7 +97,7 @@ public class DriverControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonInString));
 
-    }
+    }*/
     @Test
     @WithMockUser(username = "test_user", roles = {"DRIVER"})
     public void shouldntAddVehicleToDriverHavingVehicle() throws Exception {
@@ -144,6 +144,7 @@ public class DriverControllerTest {
 
         mockMvc.perform(delete("/driver/vehicle/delete/"+regNumber)).andExpect(status().isForbidden()).andExpect(content().string("Removing failed. You dont have permission or vehicle doesnt exists."));
     }
+/*
 
     @Test
     @WithMockUser(username = "test_user", roles = {"DRIVER"})
@@ -161,6 +162,7 @@ public class DriverControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonInString));
     }
+*/
 
     @Test
     @WithMockUser(username = "test_user", roles = {"DRIVER"})

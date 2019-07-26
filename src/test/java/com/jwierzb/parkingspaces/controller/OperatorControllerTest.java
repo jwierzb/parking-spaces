@@ -72,6 +72,7 @@ public class OperatorControllerTest {
 
     }
 
+/*
     @Test
     @WithMockUser(roles = "OPERATOR")
     public void shouldSignalsVehicleHasnotStartedParkometer() throws Exception {
@@ -93,6 +94,8 @@ public class OperatorControllerTest {
                 .andExpect(content().string("Vehicle doesn't started parking meter!"));
 
     }
+*/
+/*
     @Test
     @WithMockUser(roles = "OPERATOR")
     public void shouldSignalsVehicleIsWellParked() throws Exception {
@@ -114,4 +117,5 @@ public class OperatorControllerTest {
                 .andExpect(content().string("Vehicle started parkometer"));
 
     }
+*/
 }

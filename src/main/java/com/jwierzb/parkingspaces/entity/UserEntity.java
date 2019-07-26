@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,12 +28,14 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class UserEntity implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_generator")
+    @SequenceGenerator(name="author_generator", sequenceName = "user_id_sequence")
     Long id;
 
     @NotNull
@@ -40,12 +44,12 @@ public class UserEntity implements UserDetails {
 
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     DriverType driverType;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     Currency currency;
 
@@ -75,12 +79,16 @@ public class UserEntity implements UserDetails {
     @NotNull
     @JsonIgnore
     @Column(name = "ENABLED")
-    Boolean enabled;
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Builder.Default
+    Boolean enabled = true;
 
     @NotNull
     @Column(name = "NON_LOCKED")
     @JsonIgnore
-    Boolean nonLocked;
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Builder.Default
+    Boolean nonLocked = true;
 
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
@@ -90,7 +98,6 @@ public class UserEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")
     )
 
-    @JsonIgnore
     List<Role> role;
 
     @NotNull
@@ -151,5 +158,4 @@ public class UserEntity implements UserDetails {
         return enabled;
     }
 
-    public UserEntity(){}
 }

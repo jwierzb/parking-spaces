@@ -2,7 +2,9 @@ package com.jwierzb.parkingspaces.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Proxy;
 
@@ -16,10 +18,11 @@ import static lombok.AccessLevel.PRIVATE;
 @Table(name = "DRIVER_TYPE")
 @FieldDefaults(level = PRIVATE)
 @Proxy(lazy = false)
+@AllArgsConstructor
+@NoArgsConstructor
 public class DriverType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     @JsonIgnore
     Integer id;

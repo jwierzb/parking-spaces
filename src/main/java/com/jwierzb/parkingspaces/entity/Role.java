@@ -3,8 +3,8 @@ package com.jwierzb.parkingspaces.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import static lombok.AccessLevel.*;
-import lombok.Data;
-import lombok.Getter;
+
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Proxy;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,16 +19,17 @@ import java.util.LinkedHashSet;
 @FieldDefaults(level = PRIVATE)
 @Data
 @Proxy(lazy = false)
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Role implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    @JsonIgnore
+    @Column(name = "ID", updatable = false)
     Integer id;
 
     @NotNull
-    @Column(name="ROLE_NAME", unique = true)
+    @Column(name="NAME", unique = true)
     String name;
 
     @Override
