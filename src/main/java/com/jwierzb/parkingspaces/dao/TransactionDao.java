@@ -22,7 +22,7 @@ public interface TransactionDao extends JpaRepository<Transaction, Long> {
     Optional<Transaction> findByUserAndVehicleAndEndTimeIsNull(@Param("user") UserEntity userEntity, @Param("vehicle") Vehicle vehicle);
 
     @Query(
-            value = "SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM TRANSACTION t WHERE t.USER_ID = :#{#userEntity.id} and t.VEHICLE_ID = :#{#vehicle.id} and t.END_TIME IS NULL",
+            value = "SELECT CASE WHEN COUNT(USER_ID) > 0 THEN true ELSE false END FROM TRANSACTION t WHERE t.USER_ID = :#{#userEntity.id} and t.VEHICLE_ID = :#{#vehicle.id} and t.END_TIME IS NULL",
             nativeQuery = true
     )
     Boolean existsByUserAndVehicleAndEndTimeIsNull(@Param("user") UserEntity userEntity, @Param("vehicle") Vehicle vehicle);

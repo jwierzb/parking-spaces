@@ -24,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDateTime;
+
 /**
  * Controller responsible for login and signing up users.
  */
@@ -58,6 +60,7 @@ public class PublicUserController {
         UserEntity userEntity =
                 UserEntity.builder()
                 .username(userModel.getUsername())
+                .createdAt(LocalDateTime.now())
                 .password((userModel.getPassword()))
                 .enabled(true)
                 .phoneNumber(userModel.getPhoneNumber())

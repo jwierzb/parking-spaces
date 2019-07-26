@@ -106,7 +106,7 @@ public class UserEntity implements UserDetails {
     LocalDateTime createdAt;
 
     @JsonGetter
-    String getCreatedAt(){return createdAt.toString();}
+    public String getCreatedAt(){return createdAt.toString();}
     @PrePersist
     void createdAt(){
         this.createdAt = LocalDateTime.now();
