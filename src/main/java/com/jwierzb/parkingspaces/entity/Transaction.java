@@ -55,7 +55,7 @@ public class Transaction {
 
     @Column(name = "PRICE")
     @JsonIgnore
-    BigDecimal price;
+    Double price;
 
     @Column(name = "PAYED")
     @Type(type = "org.hibernate.type.NumericBooleanType")
@@ -67,7 +67,7 @@ public class Transaction {
     String getParkingPrice()
     {
         if(price == null) return "N/A";
-        return String.format("%.3f", price.divide(BigDecimal.valueOf(user.getCurrency().getExchangeRate()))) + user.getCurrency().getName();
+        return String.format("%.3f", price / user.getCurrency().getExchangeRate()) + user.getCurrency().getName();
     }
 
     /**
@@ -82,8 +82,8 @@ public class Transaction {
         DriverType driverType = user.getDriverType();
         long hours = ChronoUnit.HOURS.between(startTime, endTime)+1;
 
-        if(driverType.getNextHoursMultipiler()==1) price = BigDecimal.valueOf(driverType.getFirstHourPrice()+(hours-1)*driverType.getSecondHourPrice());
-        price = BigDecimal.valueOf(driverType.getFirstHourPrice()+driverType.getSecondHourPrice()*(1-pow(driverType.getNextHoursMultipiler(), hours-1))/(1-driverType.getNextHoursMultipiler()));
+        if(driverType.getNextHoursMultipiler()==1) price = (driverType.getFirstHourPrice()+(hours-1)*driverType.getSecondHourPrice());
+        price = (driverType.getFirstHourPrice()+driverType.getSecondHourPrice()*(1-pow(driverType.getNextHoursMultipiler(), hours-1))/(1-driverType.getNextHoursMultipiler()));
 
     }
 

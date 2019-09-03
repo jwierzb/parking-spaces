@@ -9,6 +9,9 @@ import com.jwierzb.parkingspaces.exception.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +28,7 @@ import java.util.List;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DriverController {
+    Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     @Autowired
     UserDao users;
@@ -111,13 +115,13 @@ public class DriverController {
     {
 
         UserEntity userEntity = users.findByUsername(principal.getName());
-
         Vehicle vehicle = vehicleDao.findByUserAndRegistrationNumber(userEntity, reg_number.toUpperCase()).orElseThrow( () -> new VehicleNotFoundException(reg_number.toUpperCase()));
-
+        logger.error("user entity: {}", userEntity);
+        logger.error("vehicle: {}", vehicle);
         /**
          * Check if userEntity have transaction with given reg_number already started
          */
-        if(transactionDao.existsByUserAndVehicleAndEndTimeIsNull(userEntity, vehicle)) throw new TransactionAlreadyExistsException(reg_number.toUpperCase());
+        if(transactionDao.existsByUserAndVehicleAndEndTimeIsNull(userEntity.getId(), vehicle.getId())) throw new TransactionAlreadyExistsException(reg_number.toUpperCase());
 
         return transactionDao.save(Transaction.builder().user(userEntity).payed(false).vehicle(vehicle).build());
     }

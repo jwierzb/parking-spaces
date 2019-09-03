@@ -78,7 +78,6 @@ public class PublicUserController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     private TokenWraper login(@RequestBody UserModelLogin userModel)  {
-
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userModel.getUsername(), userModel.getPassword()));
             return new TokenWraper(jwtTokenProvider.createToken(userModel.getUsername(), users.findByUsername(userModel.getUsername()).getRole()));

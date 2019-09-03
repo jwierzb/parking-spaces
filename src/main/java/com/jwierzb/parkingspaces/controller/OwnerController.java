@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 
 @RestController
@@ -42,10 +43,9 @@ public class OwnerController {
                                        @PathVariable String date) throws DateTimeParseException
     {
         LocalDate dayDate = LocalDate.parse(date);
-
         OwnerProfitModel ownerProfitModel =
                 OwnerProfitModel.builder()
-                .parkingFinished(transactionDao.countAllByEndTimeBetween(dayDate.atStartOfDay(), dayDate.atStartOfDay().plusDays(1L)))
+                .parkingFinished(transactionDao.countAllByEndTimeBetween(dayDate.atStartOfDay(), dayDate.atStartOfDay().plusDays(1)))
                 .parkingInProgress(transactionDao.countAllByEndTimeNull())
                 .totalProfit((transactionDao.findAllByEndTimeBetween(dayDate.atStartOfDay(), dayDate.atStartOfDay().plusDays(1L))).stream().mapToDouble(x -> x.getPrice().doubleValue()).sum())
                 .build();

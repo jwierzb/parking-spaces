@@ -89,9 +89,9 @@ public class OwnerControllerTest {
         UserEntity user = UserEntity.builder().username("asdf").build();
         Vehicle vehicle = Vehicle.builder().registrationNumber("asdf").user(user).build();
 
-        Transaction transaction1 = Transaction.builder().endTime(end1).user(user).startTime(start1).vehicle(vehicle).price(BigDecimal.valueOf(10D)).build();
-        Transaction transaction3 = Transaction.builder().endTime(end2).user(user).startTime(start2).vehicle(vehicle).price(BigDecimal.valueOf(20D)).build();
-        Transaction transaction4 = Transaction.builder().endTime(end3).user(user).startTime(start3).vehicle(vehicle).price(BigDecimal.valueOf(15D)).build();
+        Transaction transaction1 = Transaction.builder().endTime(end1).user(user).startTime(start1).vehicle(vehicle).price((10D)).build();
+        Transaction transaction3 = Transaction.builder().endTime(end2).user(user).startTime(start2).vehicle(vehicle).price((20D)).build();
+        Transaction transaction4 = Transaction.builder().endTime(end3).user(user).startTime(start3).vehicle(vehicle).price((15D)).build();
 
         List<Transaction> list = new ArrayList<>();
         list.add(transaction1);

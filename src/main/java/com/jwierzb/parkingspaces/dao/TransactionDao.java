@@ -16,25 +16,25 @@ import java.util.Optional;
 public interface TransactionDao extends JpaRepository<Transaction, Long> {
 
     @Query(
-            value = "SELECT t FROM TRANSACTION t WHERE t.USER_ID = :#{#userEntity.id} and t.vehicle_id = :#{#vehicle.id}",
+            value = "SELECT * FROM TRANSACTION t WHERE t.USER_ID = :user and t.vehicle_id = :vehicle and t.END_TIME IS NULL",
             nativeQuery = true
     )
     Optional<Transaction> findByUserAndVehicleAndEndTimeIsNull(@Param("user") UserEntity userEntity, @Param("vehicle") Vehicle vehicle);
 
     @Query(
-            value = "SELECT CASE WHEN COUNT(USER_ID) > 0 THEN true ELSE false END FROM TRANSACTION t WHERE t.USER_ID = :#{#userEntity.id} and t.VEHICLE_ID = :#{#vehicle.id} and t.END_TIME IS NULL",
+            value = "SELECT CASE WHEN COUNT(USER_ID) > 0 THEN true ELSE false END FROM TRANSACTION t WHERE t.USER_ID = :user and t.VEHICLE_ID = :vehicle and t.END_TIME IS NULL",
             nativeQuery = true
     )
-    Boolean existsByUserAndVehicleAndEndTimeIsNull(@Param("user") UserEntity userEntity, @Param("vehicle") Vehicle vehicle);
+    Boolean existsByUserAndVehicleAndEndTimeIsNull(@Param("user") Long userEntity, @Param("vehicle") Long vehicle);
 
     @Query(
-            value = "SELECT t FROM TRANSACTION t WHERE t.USER_ID = :#{#userEntity.id} AND t.END_TINE IS NOT NULL",
+            value = "SELECT * FROM TRANSACTION t WHERE t.USER_ID = :user AND t.END_TIME IS NOT NULL",
             nativeQuery = true
     )
     List<Transaction> findAllByUserAndEndTimeNotNull(@Param("user") UserEntity userEntity);
 
     @Query(
-            value = "SELECT t FROM TRANSACTION t WHERE t.VEHICLE_ID = :#{#vehicle.id} AND t.END_TIME IS NULL",
+            value = "SELECT * FROM TRANSACTION t WHERE t.VEHICLE_ID = :vehicle AND t.END_TIME IS NULL",
             nativeQuery = true
     )
     Optional<Transaction> findByVehicleAndEndTimeIsNull(@Param("vehicle") Vehicle vehicle);
@@ -46,15 +46,15 @@ public interface TransactionDao extends JpaRepository<Transaction, Long> {
     Integer countAllByEndTimeNull();
 
     @Query(
-            value = "SELECT COUNT(ID) FROM TRANSACTION t WHERE t.END_TIME <= :#{#right} AND t.END_TIME >= :#{#left}",
+            value = "SELECT COUNT(ID) FROM TRANSACTION t WHERE t.END_TIME BETWEEN :left AND :right",
             nativeQuery = true
     )
     Integer countAllByEndTimeBetween(@Param("left") LocalDateTime left, @Param("right") LocalDateTime right);
 
     @Query(
-            value = "SELECT t FROM TRANSACTION t WHERE t.END_TIME <= :#{#right} AND t.END_TIME >= :#{#left}",
+            value = "SELECT * FROM TRANSACTION t WHERE t.END_TIME BETWEEN :left AND :right",
             nativeQuery = true
     )
-    List<Transaction> findAllByEndTimeBetween(LocalDateTime left, LocalDateTime right);
+    List<Transaction> findAllByEndTimeBetween(@Param("left") LocalDateTime left, @Param("right") LocalDateTime right);
 
 }
